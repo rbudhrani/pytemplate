@@ -1,0 +1,46 @@
+name: Bug report
+description: Report a problem with a project generated from this template.
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: Before reporting, check whether the issue has already been reported.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What happened?
+      description: Describe the problem in the generated project.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: How can we reproduce it?
+      description: Provide the steps and commands needed to reproduce the problem.
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect to happen?
+    validations:
+      required: true
+  - type: input
+    id: python-version
+    attributes:
+      label: Python version
+      placeholder: e.g. 3.14.0
+  - type: input
+    id: package-version
+    attributes:
+      label: Package version or commit
+  - type: input
+    id: operating-system
+    attributes:
+      label: Operating system
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Add a minimal example, relevant logs, or other details that may help diagnose the problem.

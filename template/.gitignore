@@ -1,0 +1,21 @@
+# bytecode
+__pycache__/
+
+# packaging metadata
+*.egg-info/
+
+# virtual environments
+.venv*/
+venv*/
+
+# coverage
+.coverage*
+htmlcov/
+
+# caches
+.pytest_cache/
+.ruff_cache/
+
+# build directories
+build/
+dist/

@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+
+jobs:
+  validate_build:
+    name: Lint, Type Check, Test & Build
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    if: "!startsWith(github.event.head_commit.message, 'chore(main): release')"
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Run checks
+        uses: ./.github/actions/ci
+
+      - name: Upload HTML Coverage Report
+        if: always() 
+        uses: actions/upload-artifact@v4
+        with:
+          name: html-coverage-report
+          path: htmlcov/
+          retention-days: 14
+
+      - name: Save Built Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-artifacts
+          path: dist/
+          retention-days: 1

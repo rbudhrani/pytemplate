@@ -1,0 +1,43 @@
+name: Bug report
+description: Report a problem with the Python package template.
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: Before reporting, check whether the issue has already been reported.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What happened?
+      description: Describe the problem you encountered with this template.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: How can we reproduce it?
+      description: Include the Copier command and the answers or steps needed to reproduce the problem.
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect to happen?
+    validations:
+      required: true
+  - type: input
+    id: copier-version
+    attributes:
+      label: Copier version
+      placeholder: e.g. 9.6.0
+  - type: input
+    id: template-revision
+    attributes:
+      label: Template revision
+      description: The release, tag, or commit used to generate the project.
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Add relevant logs, screenshots, or details about your environment.

@@ -1,0 +1,39 @@
+name: CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    name: Automated Release Management
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run Release Please
+        id: release_please
+        uses: googleapis/release-please-action@v4
+        with:
+          release-type: python
+
+      - name: Set up uv
+        if: ${{ steps.release_please.outputs.release_created }}
+        uses: astral-sh/setup-uv@v5
+
+      - name: Build distributions
+        if: ${{ steps.release_please.outputs.release_created }}
+        run: uv build
+
+      - name: Add a release to GitHub
+        if: ${{ steps.release_please.outputs.release_created }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release upload ${{ steps.release_please.outputs.tag_name }} dist/*

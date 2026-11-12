@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+
+jobs:
+  test_generated_project:
+    name: Generate and test template
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    if: "!startsWith(github.event.head_commit.message, 'chore(main): release')"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Install Copier
+        run: uv tool install copier
+
+      - name: Generate project using Copier
+        run: copier copy --defaults --vcs-ref=HEAD -d project_name="Test Project" . ./test_project
+
+      - name: Run generated project checks
+        uses: ./test_project/.github/actions/ci
+        with:
+          working-directory: test_project

@@ -1,0 +1,36 @@
+name: Python CI checks
+description: Run formatting, lint, type, test, and build checks
+
+inputs:
+  working-directory:
+    description: Directory containing the generated Python project
+    required: false
+    default: .
+
+runs:
+  using: composite
+  steps:
+    - name: Ruff Formatter
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      run: uv run ruff format --check
+
+    - name: Ruff Linter
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      run: uv run ruff check
+
+    - name: Ty Type Checker
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      run: uv run ty check
+
+    - name: Run Tests with Coverage
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      run: uv run --editable pytest --cov-fail-under=100
+
+    - name: Build Distributions
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      run: uv build
